@@ -1,8 +1,6 @@
 IMAGE_NAME="franka_ws:latest"
 CONTAINER_NAME="franka_ws"
 
-DOMAIN=${CONTAINER_NAME: -2}
-
 xhost +local:root
 XAUTH=/tmp/.docker.xauth
 if [ ! -f $XAUTH ]
@@ -20,7 +18,6 @@ docker stop $CONTAINER_NAME || true && docker rm $CONTAINER_NAME || true
 docker run -it \
     --env="DISPLAY=$DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
-    --env="ROS_DOMAIN_ID=$DOMAIN" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     --env="XAUTHORITY=$XAUTH" \
     --volume="$XAUTH:$XAUTH" \
