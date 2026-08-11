@@ -1,8 +1,69 @@
-# Franka Panda ROS1 Workspace 
+# Franka Panda ROS1 Workspace
 
+Teleoperation workspace for the Franka Panda 7-DOF robot arm using ROS Noetic.
 
 ## Setup
 
-Enter .docker and build image
-`docker build -t franka_ws .`
-then use `run.sh` to start the container. 
+1. Build the Docker image from the `.docker/` directory:
+   ```bash
+   docker build -t franka_ws .
+   ```
+2. Start the container:
+   ```bash
+   ./run.sh
+   ```
+3. To enter in new terminal: 
+   ```bash 
+   docker exec -it franka_ws bash
+   ```
+
+## Robot Control
+
+> **Note:** Replace `192.168.1.1` with your robot's actual IP address throughout.
+
+### Option A: Joint Trajectory Controller
+
+**1. Launch the Franka driver:**
+```bash
+roslaunch franka_control franka_control.launch robot_ip:=192.168.1.1
+```
+
+or simulation 
+```bash
+roslaunch franka_gazebo panda.launch
+```
+
+
+
+**2. Spawn the joint trajectory controller:**
+```bash
+rosrun controller_manager spawner position_joint_trajectory_controller
+```
+
+**3. Send a joint position command** (example: home-ish pose):
+```bash
+rostopic pub /position_joint_trajectory_controller/command trajectory_msgs/JointTrajectory "header:
+  seq: 0
+  stamp:
+    secs: 0
+    nsecs: 0
+  frame_id: ''
+joint_names:
+- 'panda_joint1'
+- 'panda_joint2'
+- 'panda_joint3'
+- 'panda_joint4'
+- 'panda_joint5'
+- 'panda_joint6'
+- 'panda_joint7'
+points:
+- positions: [-1.24715, 0.57547, 1.54540, -2.07732, -0.43934, 1.36887, -1.37637]
+  time_from_start: {secs: 4, nsecs: 0}" -1
+```
+
+### Option B: MoveIt Planner
+
+Launches the driver, MoveIt move_group, and RViz in one command:
+```bash
+roslaunch panda_moveit_config franka_control.launch robot_ip:=192.168.1.1 load_gripper:=true
+```
