@@ -8,7 +8,19 @@ RUN apt-get update && apt-get install -y \
     python3-catkin-tools \
     python3-osrf-pycommon \
     python3-rosdep \
+    python3-pip \
+    libeigen3-dev \
+    liborocos-kdl-dev \
+    libkdl-parser-dev \
+    liburdfdom-dev \
+    libnlopt-dev \
+    ros-noetic-urdf \
+    ros-noetic-kdl-parser \
+    ros-noetic-trac-ik-lib \
+    vim \ 
     && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install pynput
 
 WORKDIR /opt/libfranka
 RUN git clone --recursive --branch 0.9.1 https://github.com/frankarobotics/libfranka.git . \
@@ -21,6 +33,8 @@ WORKDIR /catkin_ws
 RUN mkdir -p src \
     && cd src \
     && git clone --branch 0.9.1 https://github.com/frankarobotics/franka_ros.git
+
+COPY src/ /catkin_ws/src/external
 
 RUN apt-get update \
     && rosdep update --include-eol-distros \

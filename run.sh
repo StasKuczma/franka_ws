@@ -1,3 +1,4 @@
+#!/bin/bash
 IMAGE_NAME="franka_ws:latest"
 CONTAINER_NAME="franka_ws"
 

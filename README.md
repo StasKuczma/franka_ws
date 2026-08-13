@@ -3,16 +3,25 @@
 Teleoperation workspace for the Franka Panda 7-DOF robot arm using ROS Noetic.
 
 ## Setup
-
-1. Build the Docker image from the `.docker/` directory:
+1. Create src/external directory 
    ```bash
-   docker build -t franka_ws .
+   cd franka_ws
+   mkdir src/external
    ```
-2. Start the container:
+2. Clone there source code for teleoperation
+   ```bash
+   gdown <id>
+  ``` 
+3. Build the Docker image:
+   ```bash
+   docker build -f .docker/Dockerfile -t franka_ws .
+   ```
+4. Start the container:
    ```bash
    ./run.sh
    ```
-3. To enter in new terminal: 
+   > note: running again script `run.sh` will stop and remove old container, if you wish to resume the work start the container again using `docker start franka_ws` 
+5. To enter in new terminal: 
    ```bash 
    docker exec -it franka_ws bash
    ```
@@ -66,4 +75,12 @@ points:
 Launches the driver, MoveIt move_group, and RViz in one command:
 ```bash
 roslaunch panda_moveit_config franka_control.launch robot_ip:=192.168.1.1 load_gripper:=true
+```
+
+
+## Teleop
+
+Source you Tracikpy 
+```bash
+pip install -e /catkin_ws/src/external/teleop_mit_panda/src/tracikpy/
 ```
