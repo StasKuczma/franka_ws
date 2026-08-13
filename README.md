@@ -11,7 +11,7 @@ Teleoperation workspace for the Franka Panda 7-DOF robot arm using ROS Noetic.
 2. Clone there source code for teleoperation
    ```bash
    gdown <id>
-  ``` 
+   ```
 3. Build the Docker image:
    ```bash
    docker build -f .docker/Dockerfile -t franka_ws .
